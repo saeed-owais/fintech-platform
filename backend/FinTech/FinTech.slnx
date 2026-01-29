@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FinTech.API/FinTech.API.csproj" Id="93b1881c-ab6b-4b5e-a485-4616095b91da" />
+  <Project Path="FinTech.Application/FinTech.Application.csproj" />
+  <Project Path="FinTech.Domain/FinTech.Domain.csproj" />
+  <Project Path="FinTech.Infrastructure/FinTech.Infrastructure.csproj" />
+</Solution>
