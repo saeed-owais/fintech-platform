@@ -1,5 +1,5 @@
 ﻿namespace FinTech.Application.Auth.Register
 {
-    public record RegisterUserResponse(Guid Id, string Email);
+    public record RegisterUserResponse(string token, string Email, Guid Id, string Role);
 
 }

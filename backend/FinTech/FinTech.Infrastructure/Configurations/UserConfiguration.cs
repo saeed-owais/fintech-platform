@@ -27,7 +27,8 @@ namespace FinTech.Infrastructure.Configurations
                    .IsRequired();
 
             builder.Property(u => u.Role)
-                   .IsRequired();
+                   .IsRequired()
+                   .HasMaxLength(50);
 
             builder.Property(u => u.CreatedAt)
                    .IsRequired();

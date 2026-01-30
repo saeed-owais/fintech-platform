@@ -1,4 +1,6 @@
 ﻿using FinTech.Application.Abstractions;
+using FinTech.Infrastructure.Auth;
+using FinTech.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +20,17 @@ namespace FinTech.Infrastructure
             services.AddScoped<IApplicationDbContext>
                 (sp => sp.GetRequiredService<ApplicationDbContext>());
 
+            services.AddOptions<JwtOptions>()
+                    .Bind(configuration.GetSection(JwtOptions.SectionName))
+                    .Validate(o => !string.IsNullOrWhiteSpace(o.Key), "JWT Key is required")
+                    .ValidateOnStart();
+
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             return services;
         }
     }
+
 }
