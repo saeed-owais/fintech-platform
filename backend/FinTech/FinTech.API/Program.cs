@@ -4,6 +4,7 @@ using FinTech.Infrastructure;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 namespace FinTech.API
@@ -54,18 +55,34 @@ namespace FinTech.API
             {
                 appError.Run(async context =>
                 {
-                    context.Response.StatusCode = 400;
                     context.Response.ContentType = "application/json";
 
                     var error = context.Features.Get<IExceptionHandlerFeature>()?.Error;
 
                     if (error is ValidationException validationException)
                     {
-                        await context.Response.WriteAsJsonAsync(new
+                        var errors = validationException.Errors
+                            .GroupBy(e => e.PropertyName)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Select(e => e.ErrorMessage).ToArray()
+                            );
+
+                        var problemDetails = new ValidationProblemDetails(errors)
                         {
-                            Errors = validationException.Errors
-                                .Select(e => e.ErrorMessage)
-                        });
+                            Status = StatusCodes.Status400BadRequest,
+                            Title = "Validation Failed",
+                            Type = "https://httpstatuses.com/400",
+                            Instance = context.Request.Path
+                        };
+
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                        await context.Response.WriteAsJsonAsync(problemDetails);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     }
                 });
             });
