@@ -41,7 +41,8 @@ namespace FinTech.Application.Auth.Login
             //generate token
             var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Role);
 
-            return Result.Success(new LoginUserResponse(token, user.Name, user.Email, user.Role));
+            return new LoginUserResponse(token, user.Name, user.Email, user.Role); // implicit casting
+            //return Result.Success(new LoginUserResponse(token, user.Name, user.Email, user.Role)); or this
 
         }
     }

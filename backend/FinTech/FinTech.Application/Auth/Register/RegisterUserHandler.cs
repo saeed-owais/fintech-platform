@@ -49,7 +49,8 @@ namespace FinTech.Application.Auth.Register
 
             var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Role);
 
-            return Result.Success(new RegisterUserResponse(token, user.Email, user.Id, user.Role));
+            return new RegisterUserResponse(token, user.Email, user.Id, user.Role);
+            //return Result.Success(new RegisterUserResponse(token, user.Email, user.Id, user.Role));
         }
     }
 }

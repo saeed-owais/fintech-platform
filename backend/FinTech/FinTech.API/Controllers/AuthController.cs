@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinTech.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -23,7 +21,7 @@ namespace FinTech.API.Controllers
 
             if (result.IsSuccess) return Ok(result.Value);
 
-            else return BadRequest(result.Error);
+            return CreateProblemDetails(result.Error);
         }
 
         [HttpPost("login")]
@@ -31,10 +29,9 @@ namespace FinTech.API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (result.IsFailure)
-                return Unauthorized(result.Error);
+            if (result.IsSuccess) return Ok(result.Value);
 
-            return Ok(result.Value);
+            return CreateProblemDetails(result.Error);
 
         }
     }
