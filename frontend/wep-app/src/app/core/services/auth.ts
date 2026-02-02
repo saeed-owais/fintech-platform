@@ -3,16 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.models';
+import { AuthResponse, LoginRequest, RegisterRequest, UserClaims } from '../models/auth.models';
 import { jwtDecode } from 'jwt-decode';
 
-interface UserClaims {
-  sub: string;
-  name: string;
-  email: string;
-  role: string;
-  exp: number;
-}
+
 @Injectable({
   providedIn: 'root',
 })

@@ -1,3 +1,10 @@
+export interface UserClaims {
+  sub: string;
+  name: string;
+  email: string;
+  role: string;
+  exp: number;
+}
 export interface AuthResponse {
   email: string;
   name: string;

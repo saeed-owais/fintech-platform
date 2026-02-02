@@ -1,0 +1,65 @@
+<!-- Modern Auth Layout - Split Screen Design -->
+<div class="min-h-screen flex">
+    <!-- Left Panel - Branding -->
+    <div
+        class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-12 flex-col justify-between relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+            <div class="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- Logo & Branding -->
+        <div class="relative z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-bold text-white">FinTech</span>
+            </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 space-y-6">
+            <h1 class="text-4xl xl:text-5xl font-bold text-white leading-tight">
+                Your Digital Wallet,<br />
+                <span class="text-white/80">Reimagined.</span>
+            </h1>
+            <p class="text-lg text-white/70 max-w-md">
+                Experience seamless transactions, real-time balance tracking, and secure fund management all in one
+                place.
+            </p>
+
+            <!-- Feature Pills -->
+            <div class="flex flex-wrap gap-3 pt-4">
+                <span
+                    class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90 border border-white/20">
+                    🔒 Secure Transactions
+                </span>
+                <span
+                    class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90 border border-white/20">
+                    ⚡ Instant Transfers
+                </span>
+                <span
+                    class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90 border border-white/20">
+                    📊 Real-time Analytics
+                </span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="relative z-10 text-white/50 text-sm">
+            © 2026 FinTech Platform. Educational Project.
+        </div>
+    </div>
+
+    <!-- Right Panel - Auth Forms -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-gray-50">
+        <div class="w-full max-w-md">
+            <router-outlet />
+        </div>
+    </div>
+</div>
