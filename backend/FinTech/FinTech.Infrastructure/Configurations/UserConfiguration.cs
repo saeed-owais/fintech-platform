@@ -32,6 +32,8 @@ namespace FinTech.Infrastructure.Configurations
 
             builder.Property(u => u.CreatedAt)
                    .IsRequired();
+
+            builder.HasQueryFilter(u => !u.IsDeleted);
         }
     }
 }

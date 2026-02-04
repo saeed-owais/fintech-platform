@@ -1,6 +1,7 @@
 ﻿using FinTech.Application.Abstractions;
 using FinTech.Infrastructure.Auth;
 using FinTech.Infrastructure.Security;
+using FinTech.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,9 @@ namespace FinTech.Infrastructure
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             return services;
         }

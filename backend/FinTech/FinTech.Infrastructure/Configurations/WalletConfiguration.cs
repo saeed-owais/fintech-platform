@@ -28,6 +28,8 @@ namespace FinTech.Infrastructure.Configurations
                    .WithOne()
                    .HasForeignKey<Wallet>(w => w.UserId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasQueryFilter(w => !w.IsDeleted);
         }
     }
 }
