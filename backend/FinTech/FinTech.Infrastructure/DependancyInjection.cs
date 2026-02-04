@@ -4,6 +4,8 @@ using FinTech.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace FinTech.Infrastructure
 {
@@ -15,6 +17,8 @@ namespace FinTech.Infrastructure
 
             services.AddDbContext<ApplicationDbContext>(option =>
                 option.UseSqlServer(connectionString)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
             );
 
             services.AddScoped<IApplicationDbContext>

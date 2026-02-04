@@ -11,7 +11,6 @@
 
         public User(string name, string email, string passwordHash, string role)
         {
-            Id = Guid.NewGuid();
             Name = name;
             Email = email;
             PasswordHash = passwordHash;

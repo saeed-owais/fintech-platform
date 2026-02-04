@@ -7,6 +7,8 @@ namespace FinTech.Application.Abstractions
     {
         DbSet<User> Users { get; }
         DbSet<Wallet> Wallets { get; }
+        DbSet<Transaction> Transactions { get; }
+        DbSet<AuditLog> AuditLogs { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

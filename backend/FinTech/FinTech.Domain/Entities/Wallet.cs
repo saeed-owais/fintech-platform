@@ -4,12 +4,13 @@
     {
         public Guid UserId { get; private set; }
         public bool IsFrozen { get; private set; }
+        public ICollection<Transaction> OutgoingTransactions { get; private set; } = new List<Transaction>();
+        public ICollection<Transaction> IncomingTransactions { get; private set; } = new List<Transaction>();
 
         private Wallet() { } // For EF
 
         public Wallet(Guid userId)
         {
-            Id = Guid.NewGuid();
             UserId = userId;
             IsFrozen = false;
             CreatedAt = DateTime.UtcNow;
