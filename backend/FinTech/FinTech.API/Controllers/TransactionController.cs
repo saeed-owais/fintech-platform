@@ -1,4 +1,5 @@
 ﻿using FinTech.Application.Transactions.Commands.Deposit;
+using FinTech.Application.Transactions.Commands.Transfer;
 using FinTech.Application.Transactions.Commands.Withdraw;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,8 +16,9 @@ namespace FinTech.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPost("deposit")]
-        public async Task<ActionResult<DepositResponse>> Deposit(DepositCommand command)
+        public async Task<ActionResult<DepositResponse>> Deposit([FromBody] DepositCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -27,8 +29,22 @@ namespace FinTech.API.Controllers
 
             return CreateProblemDetails(result.Error);
         }
+
         [HttpPost("withdraw")]
-        public async Task<ActionResult<DepositResponse>> Withdraw(WithdrawCommand command)
+        public async Task<ActionResult<WithdrawResponse>> Withdraw([FromBody] WithdrawCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+            return CreateProblemDetails(result.Error);
+        }
+
+        [HttpPost("transfer")]
+        public async Task<ActionResult<TransferResponse>> Transfer([FromBody] TransferCommand command)
         {
             var result = await _mediator.Send(command);
 

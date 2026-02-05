@@ -12,10 +12,15 @@ namespace FinTech.Infrastructure.Services
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
         public Guid UserId =>
              Guid.TryParse(_httpContextAccessor.HttpContext?.User?
                 .FindFirst(ClaimTypes.NameIdentifier)?.Value, out var userId)
             ? userId
             : Guid.Empty;
+
+        public string? Email =>
+            _httpContextAccessor.HttpContext?.User?
+                .FindFirst(ClaimTypes.Email)?.Value;
     }
 }
