@@ -19,8 +19,8 @@ namespace FinTech.Domain.Entities
             decimal amount,
             string status,
             string transactionType,
-            Guid sourceWalletId,
-            Guid destinationWalletId)
+            Guid? sourceWalletId,
+            Guid? destinationWalletId)
         {
             Amount = amount;
             Status = status;
