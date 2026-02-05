@@ -13,7 +13,7 @@ namespace FinTech.Domain.Entities
         public Wallet? SourceWallet { get; set; }
         public Wallet? DestinationWallet { get; set; }
 
-        public Transaction() { }
+        private Transaction() { }
 
         public Transaction(
             decimal amount,
