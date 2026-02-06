@@ -24,7 +24,7 @@ namespace FinTech.Infrastructure.Configurations
             builder.Property(w => w.CreatedAt)
                    .IsRequired();
 
-            builder.HasOne<User>()
+            builder.HasOne(w => w.User)
                    .WithOne()
                    .HasForeignKey<Wallet>(w => w.UserId)
                    .OnDelete(DeleteBehavior.Cascade);

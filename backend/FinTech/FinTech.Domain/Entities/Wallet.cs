@@ -7,6 +7,7 @@
         public ICollection<Transaction> OutgoingTransactions { get; private set; } = new List<Transaction>();
         public ICollection<Transaction> IncomingTransactions { get; private set; } = new List<Transaction>();
 
+        public User User { get; set; }
         private Wallet() { } // For EF
 
         public Wallet(Guid userId)
