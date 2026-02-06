@@ -1,6 +1,7 @@
 ﻿using FinTech.Application.Transactions.Commands.Deposit;
 using FinTech.Application.Transactions.Commands.Transfer;
 using FinTech.Application.Transactions.Commands.Withdraw;
+using FinTech.Application.Transactions.Queries.GetBalance;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,19 @@ namespace FinTech.API.Controllers
         public TransactionController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("balance")]
+        public async Task<ActionResult<GetBalanceResponse>> GetBalance()
+        {
+            var result = await _mediator.Send(new GetBalanceQuery());
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+            return CreateProblemDetails(result.Error);
         }
 
         [HttpPost("deposit")]
