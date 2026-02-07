@@ -1,7 +1,13 @@
-<app-navbar/>
+<div class="min-h-screen flex flex-col bg-slate-950">
+    <app-navbar />
 
-<app-sidebar/>
+    <div class="flex flex-1">
+        <app-sidebar />
 
-<router-outlet/>
+        <main class="flex-1 text-white p-6 overflow-y-auto">
+            <router-outlet />
+        </main>
+    </div>
 
-<app-footer/>
+    <app-footer />
+</div>
