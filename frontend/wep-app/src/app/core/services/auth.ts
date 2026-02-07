@@ -5,6 +5,7 @@ import { tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthResponse, LoginRequest, RegisterRequest, UserClaims } from '../models/auth.models';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
   private readonly apiUrl = environment.apiUrl;
-
+  private router = inject(Router)
   currentUser = signal<UserClaims | null>(null);
   isAuthenticated = computed(() => this.currentUser() !== null);
 
@@ -61,5 +62,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     this.currentUser.set(null);
+    this.router.navigate(['/auth/login']);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 import { LoginRequest } from '../../../core/models/auth.models';
 
@@ -14,12 +14,13 @@ export class Login {
   private readonly authService = inject(AuthService);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   isLoading = signal(false);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   get emailInvalid() {
@@ -38,13 +39,14 @@ export class Login {
         this.isLoading.set(false);
         console.log(response);
 
-        // this.router.navigate(['/app/dashboard']);
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        this.router.navigateByUrl(returnUrl);
       },
       error: (error) => {
         this.isLoading.set(false);
         console.error('Login failed:', error);
         // TODO: Show error message to user
-      }
+      },
     });
   }
 }
