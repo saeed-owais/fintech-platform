@@ -1,5 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth';
+import { TransactionService } from '../../../features/transactions/services/transaction';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,9 @@ import { AuthService } from '../../services/auth';
 })
 export class Navbar {
   private authService = inject(AuthService);
+  private transactionService = inject(TransactionService);
 
+  balance = this.transactionService.balance
   logout() {
     this.authService.logout();
   }
