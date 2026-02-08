@@ -1,0 +1,39 @@
+@if (variant() === 'default') {
+<!-- Full Card View -->
+<div class="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 rounded-2xl p-6 border border-emerald-500/20">
+    <div class="flex items-center justify-between mb-4">
+        <p class="text-slate-400 text-sm uppercase tracking-wide">Total Balance</p>
+        @if (isFrozen()) {
+        <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded-full text-xs font-medium flex items-center">
+            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Frozen
+        </span>
+        }
+    </div>
+
+    <p class="text-4xl font-bold text-white mb-2">
+        ${{ balance() | number:'1.2-2' }}
+    </p>
+
+    @if (lastUpdated()) {
+    <p class="text-slate-500 text-sm">
+        Last updated: {{ lastUpdated() | date:'MMM d, y h:mm a' }}
+    </p>
+    }
+</div>
+} @else {
+<!-- Compact View (for Navbar) -->
+<div class="flex items-center bg-slate-800/50 rounded-xl px-4 py-2 border border-slate-700">
+    <span class="text-slate-400 text-sm mr-2">Balance:</span>
+    <span class="text-emerald-400 font-bold text-lg">${{ balance() | number:'1.2-2' }}</span>
+    @if (isFrozen()) {
+    <svg class="w-4 h-4 ml-2 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+    }
+</div>
+}

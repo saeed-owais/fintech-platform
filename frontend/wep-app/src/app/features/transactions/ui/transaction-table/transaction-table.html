@@ -1,0 +1,91 @@
+<div class="overflow-x-auto">
+    <table class="w-full">
+        @if (showHeader()) {
+        <thead>
+            <tr class="border-b border-slate-700">
+                <th class="text-left py-3 px-4 text-slate-400 font-medium text-sm">Type</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium text-sm">Amount</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium text-sm">Status</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium text-sm hidden md:table-cell">From</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium text-sm hidden md:table-cell">To</th>
+                <th class="text-left py-3 px-4 text-slate-400 font-medium text-sm">Date</th>
+            </tr>
+        </thead>
+        }
+        <tbody>
+            @for (t of transactions(); track t.id) {
+            <tr class="border-b border-slate-800 hover:bg-slate-800/50 transition-colors">
+                <!-- Type with Icon -->
+                <td class="py-4 px-4">
+                    <div class="flex items-center space-x-2">
+                        @switch (t.transactionType) {
+                        @case ('Deposit') {
+                        <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                        }
+                        @case ('Withdraw') {
+                        <div class="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                            </svg>
+                        </div>
+                        }
+                        @case ('Transfer') {
+                        <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        }
+                        }
+                        <span class="text-white font-medium">{{ t.transactionType }}</span>
+                    </div>
+                </td>
+
+                <!-- Amount -->
+                <td class="py-4 px-4">
+                    <span [class]="t.transactionType === 'Deposit' ? 'text-emerald-400' : 'text-red-400'"
+                        class="font-semibold">
+                        {{ t.transactionType === 'Deposit' ? '+' : '-' }}${{ t.amount | number:'1.2-2' }}
+                    </span>
+                </td>
+
+                <!-- Status -->
+                <td class="py-4 px-4">
+                    <span [class]="t.status === 'Completed' 
+              ? 'bg-emerald-500/20 text-emerald-400' 
+              : 'bg-red-500/20 text-red-400'" class="px-2 py-1 rounded-full text-xs font-medium">
+                        {{ t.status }}
+                    </span>
+                </td>
+
+                <!-- From -->
+                <td class="py-4 px-4 text-slate-300 text-sm hidden md:table-cell">
+                    {{ t.senderEmail || '-' }}
+                </td>
+
+                <!-- To -->
+                <td class="py-4 px-4 text-slate-300 text-sm hidden md:table-cell">
+                    {{ t.receiverEmail || '-' }}
+                </td>
+
+                <!-- Date -->
+                <td class="py-4 px-4 text-slate-400 text-sm">
+                    {{ t.createdAt | date:'MMM d, y' }}
+                </td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="6" class="py-8 text-center text-slate-500">
+                    No transactions found
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

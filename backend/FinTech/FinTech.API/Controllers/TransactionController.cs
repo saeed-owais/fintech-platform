@@ -33,7 +33,7 @@ namespace FinTech.API.Controllers
         }
 
         [HttpGet("history")]
-        public async Task<ActionResult<GetTransactionHistoryResponse>> GetHistory(GetTransactionHistoryQuery query, CancellationToken cancellation)
+        public async Task<ActionResult<GetTransactionHistoryResponse>> GetHistory([FromQuery] GetTransactionHistoryQuery query, CancellationToken cancellation)
         {
             var result = await _mediator.Send(query, cancellation);
 

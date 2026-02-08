@@ -1,1 +1,58 @@
-<p>dashboard works!</p>
+<div class="space-y-8">
+    <!-- Balance Section -->
+    <section>
+        @if (isBalanceLoading()) {
+        <div class="animate-pulse bg-slate-800 rounded-2xl h-32 w-full max-w-md"></div>
+        }
+
+        @if (balanceError()) {
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400">
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ balanceError() }}</span>
+            </div>
+            <button (click)="loadBalance()" class="mt-2 cursor-pointer text-sm underline">Try again</button>
+        </div>
+        }
+
+        @if (balance(); as b) {
+        <app-balance-card [balance]="b.balance" [lastUpdated]="b.lastUpdated" [isFrozen]="b.isFrozen" />
+        }
+    </section>
+
+    <!-- Quick Actions Section -->
+    <section>
+        <h2 class="text-xl font-semibold text-white mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <app-quick-action-card title="Deposit" route="/deposit" icon="deposit" color="green" />
+            <app-quick-action-card title="Withdraw" route="/withdraw" icon="withdraw" color="red" />
+            <app-quick-action-card title="Transfer" route="/transfer" icon="transfer" color="blue" />
+        </div>
+    </section>
+
+    <!-- Recent Transactions Section -->
+    <section>
+        <h2 class="text-xl font-semibold text-white mb-4">Recent Transactions</h2>
+        <div class="bg-slate-800/50 rounded-2xl border border-slate-700 overflow-hidden">
+            @if (isHistoryLoading()) {
+            <div class="animate-pulse bg-slate-800 rounded-2xl h-32"></div>
+            } @else if (historyError()) {
+            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{{ historyError() }}</span>
+                </div>
+                <button (click)="loadHistory()" class="mt-2 cursor-pointer text-sm underline">Try again</button>
+            </div>
+            } @else {
+            <app-transaction-table [transactions]="history()?.transactions || []" [showHeader]="true" />
+            }
+        </div>
+    </section>
+</div>
