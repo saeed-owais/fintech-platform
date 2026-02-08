@@ -1,15 +1,12 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { TransactionService } from '../../services/transaction';
-import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { Transaction } from '../../models/transaction.model';
 import { TransactionTable } from '../../ui/transaction-table/transaction-table';
 import { BalanceCard } from '../../../../shared/components/balance-card/balance-card';
 import { QuickActionCard } from '../../../../shared/components/quick-action-card/quick-action-card';
 @Component({
   selector: 'app-dashboard',
-  imports: [DatePipe, RouterLink, TransactionTable, BalanceCard, QuickActionCard],
+  imports: [TransactionTable, BalanceCard, QuickActionCard],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
