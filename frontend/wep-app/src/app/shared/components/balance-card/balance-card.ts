@@ -7,7 +7,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
     templateUrl: './balance-card.html',
 })
 export class BalanceCard {
-    balance = input.required<number>();
+    balance = input<number>();
     lastUpdated = input<string | null>(null);
     isFrozen = input(false);
     variant = input<'default' | 'compact'>('default');
