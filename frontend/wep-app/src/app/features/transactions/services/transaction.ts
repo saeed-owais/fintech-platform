@@ -62,7 +62,7 @@ export class TransactionService {
       .pipe(
         tap((history) => this._history.set(history)),
         catchError((error) => {
-          this.historyError.set(error.message);
+          this.historyError.set(error.error.errors.ToDate[0] || error.message || 'Failed to load history');
           return of(null);
         }),
         finalize(() => this.isHistoryLoading.set(false)),

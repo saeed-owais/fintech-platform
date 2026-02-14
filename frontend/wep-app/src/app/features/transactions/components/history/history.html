@@ -1,1 +1,120 @@
-<p>history works!</p>
+<div class="max-w-4xl mx-auto space-y-6">
+    <!-- Back Link -->
+    <a routerLink="/dashboard" class="inline-flex items-center text-slate-400 hover:text-white transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Dashboard
+    </a>
+
+    <!-- Card Container -->
+    <div class="bg-slate-800/50 rounded-2xl border border-slate-700 p-6">
+        <!-- Header -->
+        <div class="flex items-center space-x-3 mb-6">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
+                <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-white">Transaction History</h1>
+                <p class="text-slate-400 text-sm">View and filter your past transactions</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-slate-700/30 rounded-xl p-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- Type Filter -->
+                <div>
+                    <label for="type" class="block text-sm font-medium text-slate-300 mb-1">Type</label>
+                    <select id="type" name="type" [(ngModel)]="selectedType" (ngModelChange)="onFilterChange()"
+                        class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 appearance-none">
+                        <option value="">All Types</option>
+                        <option value="Deposit">Deposit</option>
+                        <option value="Withdraw">Withdraw</option>
+                        <option value="Transfer">Transfer</option>
+                    </select>
+                </div>
+
+                <!-- From Date -->
+                <div>
+                    <label for="fromDate" class="block text-sm font-medium text-slate-300 mb-1">From</label>
+                    <input type="date" id="fromDate" name="fromDate" [(ngModel)]="fromDate"
+                        (ngModelChange)="onFilterChange()"
+                        class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                </div>
+
+                <!-- To Date -->
+                <div>
+                    <label for="toDate" class="block text-sm font-medium text-slate-300 mb-1">To</label>
+                    <input type="date" id="toDate" name="toDate" [(ngModel)]="toDate" (ngModelChange)="onFilterChange()"
+                        class="w-full bg-slate-700 border border-slate-600 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                </div>
+            </div>
+
+            <!-- Clear Filters -->
+            @if (selectedType || fromDate || toDate) {
+            <button (click)="clearFilters()"
+                class="mt-3 text-amber-400 hover:text-amber-300 text-sm underline transition-colors">
+                Clear all filters
+            </button>
+            }
+        </div>
+
+        <!-- Loading State -->
+        @if (isHistoryLoading()) {
+        <div class="space-y-3">
+            <div class="animate-pulse bg-slate-700 rounded-xl h-12"></div>
+            <div class="animate-pulse bg-slate-700/70 rounded-xl h-10"></div>
+            <div class="animate-pulse bg-slate-700/50 rounded-xl h-10"></div>
+            <div class="animate-pulse bg-slate-700/30 rounded-xl h-10"></div>
+        </div>
+        }
+
+        <!-- Error State -->
+        @else if (historyError()) {
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+            <div class="flex items-center space-x-2 text-red-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ historyError() }}</span>
+            </div>
+            <button (click)="loadHistory()" class="mt-2 cursor-pointer text-sm text-red-400 underline">Try
+                again</button>
+        </div>
+        }
+
+        <!-- Table -->
+        @else {
+        <div class="bg-slate-800/30 rounded-xl border border-slate-700 overflow-hidden">
+            <app-transaction-table [transactions]="history()?.transactions || []" [showHeader]="true" />
+        </div>
+
+        <!-- Pagination -->
+        @if (history(); as h) {
+        @if (h.totalPages > 1) {
+        <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-700">
+            <p class="text-slate-400 text-sm">
+                Page {{ h.pageNumber }} of {{ h.totalPages }}
+                <span class="text-slate-500 ml-2">({{ h.totalCount }} total)</span>
+            </p>
+            <div class="flex items-center space-x-2">
+                <button (click)="onPageChange(currentPage() - 1)" [disabled]="currentPage() <= 1"
+                    class="px-4 py-2 rounded-lg bg-slate-700 text-white text-sm font-medium hover:bg-slate-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                    Previous
+                </button>
+                <button (click)="onPageChange(currentPage() + 1)" [disabled]="currentPage() >= h.totalPages"
+                    class="px-4 py-2 rounded-lg bg-slate-700 text-white text-sm font-medium hover:bg-slate-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                    Next
+                </button>
+            </div>
+        </div>
+        }
+        }
+        }
+    </div>
+</div>
